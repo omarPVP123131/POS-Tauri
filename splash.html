@@ -531,15 +531,6 @@
       createParticles();
 
       document.addEventListener("DOMContentLoaded", async () => {
-        // Acceso a las APIs de Tauri
-        const tauriGlobal = window.__TAURI__;
-        const invoke = tauriGlobal?.core?.invoke || tauriGlobal?.tauri?.invoke;
-        const event = tauriGlobal?.event || tauriGlobal?.tauri?.event;
-
-        if (!invoke || !event) {
-          document.getElementById("status-text").textContent = "Error: API Tauri no detectada";
-          return;
-        }
 
         // Mensajes de estado simulados
         const messages = [
@@ -562,36 +553,6 @@
           }
         }, 1500);
 
-        // Escuchar eventos del backend
-        await event.listen("splash-update", (e) => {
-          const { message, progress } = e.payload;
-          
-          const progressBar = document.getElementById("progress-bar");
-          const statusText = document.getElementById("status-text");
-          const percentage = document.getElementById("percentage");
-          const container = document.querySelector('.splash-container');
-
-          if (statusText) statusText.textContent = message;
-          if (percentage) percentage.textContent = `${progress}%`;
-          if (progressBar) progressBar.style.width = `${progress}%`;
-
-          if (progress === 100) {
-            clearInterval(messageInterval);
-            container.classList.add('completed');
-            statusText.textContent = "¡Sistema listo!";
-            
-            setTimeout(() => {
-              invoke("close_splash").catch(console.error);
-            }, 800);
-          }
-        });
-
-        // Iniciar el proceso
-        invoke("init_app").catch((err) => {
-          clearInterval(messageInterval);
-          document.getElementById("status-text").textContent = "Error: " + err;
-          document.querySelector('.progress-bar').style.background = 'linear-gradient(90deg, #ff4444, #cc0000)';
-        });
       });
     </script>
   </body>

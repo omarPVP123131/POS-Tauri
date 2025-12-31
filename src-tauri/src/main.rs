@@ -2,14 +2,14 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod api;
+mod commands;
 mod db;
 mod models;
-mod commands;
 
+use commands::AppInitState;
 use db::Database;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use commands::AppInitState;
 
 #[tokio::main]
 async fn main() {
@@ -30,13 +30,17 @@ async fn main() {
 
     println!("🖥️  Iniciando aplicación Tauri...");
     tauri::Builder::default()
+        .plugin(tauri_plugin_global_shortcut::Builder::new().build()) // <- AGREGAR ESTO
         .manage(db_state)
         // Manejar el estado de inicialización con Arc<Mutex<bool>>
-        .manage(AppInitState { is_initialized: Arc::new(Mutex::new(false)) })
+        .manage(AppInitState {
+            is_initialized: Arc::new(Mutex::new(false)),
+        })
         .invoke_handler(tauri::generate_handler![
             commands::init_app,
             commands::check_health,
             commands::close_splash,
+                        commands::toggle_fullscreen,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

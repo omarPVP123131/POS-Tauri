@@ -17,13 +17,11 @@ const queryClient = new QueryClient({
 
 function Root() {
   const [ready, setReady] = React.useState(false)
-  
+
   React.useEffect(() => {
     (async () => {
       try {
-        // Espera a que el backend confirme que está listo (init_app hace SELECT 1)
         await invoke("init_app")
-        // Luego pide a Tauri que cierre el splash y muestre la ventana principal
         await invoke("close_splash")
         setReady(true)
       } catch (error) {
@@ -31,6 +29,32 @@ function Root() {
       }
     })()
   }, [])
+
+  // ⌨️ F11 usando el comando de Rust
+  React.useEffect(() => {
+    if (!ready) return
+
+    const handleKeyDown = async (e: KeyboardEvent) => {
+      if (e.key === "F11") {
+        e.preventDefault()
+        console.log("🎯 F11 pressed")
+        
+        try {
+          const newState = await invoke<boolean>("toggle_fullscreen")
+          console.log(`✅ Fullscreen: ${newState}`)
+        } catch (err) {
+          console.error("❌ Error toggling fullscreen:", err)
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    console.log("✅ F11 listener registered")
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [ready])
 
   return <App />
 }

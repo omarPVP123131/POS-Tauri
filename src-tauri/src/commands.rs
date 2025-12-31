@@ -1,7 +1,7 @@
 // src-tauri/src/commands.rs
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-use tauri::{AppHandle, Emitter, Manager, State};
+use tauri::{AppHandle, Emitter, Manager, State, Window};
 use tokio::sync::Mutex as TokioMutex;
 use tokio::time::{sleep, Duration};
 
@@ -152,4 +152,12 @@ pub fn close_splash(app: AppHandle) {
         let _ = main.show();
         let _ = main.set_focus();
     }
+}
+
+// ⬇️ NUEVO COMANDO PARA FULLSCREEN
+#[tauri::command]
+pub async fn toggle_fullscreen(window: Window) -> Result<bool, String> {
+    let is_fullscreen = window.is_fullscreen().map_err(|e| e.to_string())?;
+    window.set_fullscreen(!is_fullscreen).map_err(|e| e.to_string())?;
+    Ok(!is_fullscreen)
 }
