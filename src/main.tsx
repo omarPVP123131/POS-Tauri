@@ -5,6 +5,8 @@ import { invoke } from "@tauri-apps/api/core"
 import App from "./App"
 import "./styles/globals.css"
 
+console.log("🚀 main.tsx ejecutándose...")
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -16,28 +18,11 @@ const queryClient = new QueryClient({
 })
 
 function Root() {
-  const [ready, setReady] = React.useState(false)
-
+  // ⌨️ F11 para fullscreen
   React.useEffect(() => {
-    (async () => {
-      try {
-        await invoke("init_app")
-        await invoke("close_splash")
-        setReady(true)
-      } catch (error) {
-        console.error("Error en init sequence:", error)
-      }
-    })()
-  }, [])
-
-  // ⌨️ F11 usando el comando de Rust
-  React.useEffect(() => {
-    if (!ready) return
-
     const handleKeyDown = async (e: KeyboardEvent) => {
       if (e.key === "F11") {
         e.preventDefault()
-        console.log("🎯 F11 pressed")
         
         try {
           const newState = await invoke<boolean>("toggle_fullscreen")
@@ -49,12 +34,8 @@ function Root() {
     }
 
     window.addEventListener("keydown", handleKeyDown)
-    console.log("✅ F11 listener registered")
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [ready])
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   return <App />
 }

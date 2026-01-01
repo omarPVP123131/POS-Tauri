@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>POS Loading</title>
+
     <style>
       * {
         margin: 0;
@@ -21,6 +22,7 @@
         --text-secondary: #8a8aa0;
         --border-color: rgba(0, 212, 255, 0.15);
         --success: #00ff88;
+        --error: #ff4444;
       }
 
       body {
@@ -49,7 +51,7 @@
         background-image: 
           linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
           linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
-        background-size: 50px 50px;
+        background-size: 40px 40px;
         animation: gridMove 20s linear infinite;
         pointer-events: none;
       }
@@ -59,7 +61,7 @@
           transform: translate(0, 0);
         }
         100% {
-          transform: translate(50px, 50px);
+          transform: translate(40px, 40px);
         }
       }
 
@@ -104,9 +106,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 70px;
+        gap: 50px;
         z-index: 10;
         position: relative;
+        padding: 20px;
       }
 
       /* Logo mejorado */
@@ -116,9 +119,9 @@
       }
 
       .logo-icon {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto 24px;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 20px;
         position: relative;
         display: flex;
         align-items: center;
@@ -155,21 +158,21 @@
       }
 
       .logo-text {
-        font-size: 36px;
+        font-size: 32px;
         font-weight: 800;
         letter-spacing: -1px;
         background: linear-gradient(135deg, var(--accent-glow) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
       }
 
       .logo-subtitle {
-        font-size: 13px;
+        font-size: 11px;
         color: var(--text-secondary);
-        letter-spacing: 3px;
+        letter-spacing: 2px;
         text-transform: uppercase;
         font-weight: 600;
       }
@@ -179,17 +182,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 45px;
+        gap: 35px;
         width: 100%;
-        max-width: 450px;
+        max-width: 360px;
         animation: fadeIn 0.6s ease-out 0.3s both;
       }
 
       /* Spinner mejorado */
       .spinner {
         position: relative;
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
       }
 
       .spinner-ring {
@@ -203,16 +206,16 @@
       }
 
       .spinner-ring:nth-child(1) {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
         animation-delay: 0s;
       }
 
       .spinner-ring:nth-child(2) {
-        width: 56px;
-        height: 56px;
-        top: 12px;
-        left: 12px;
+        width: 50px;
+        height: 50px;
+        top: 10px;
+        left: 10px;
         border-top-color: var(--accent-glow);
         border-right-color: var(--accent-glow);
         animation-direction: reverse;
@@ -220,10 +223,10 @@
       }
 
       .spinner-ring:nth-child(3) {
-        width: 32px;
-        height: 32px;
-        top: 24px;
-        left: 24px;
+        width: 30px;
+        height: 30px;
+        top: 20px;
+        left: 20px;
         border-top-color: var(--accent-primary);
         border-right-color: var(--accent-primary);
         animation-delay: 0.6s;
@@ -234,8 +237,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         background: var(--accent-primary);
         border-radius: 50%;
         box-shadow: 0 0 20px var(--accent-glow);
@@ -266,17 +269,23 @@
       .status-info {
         text-align: center;
         width: 100%;
-        min-height: 50px;
+        min-height: 40px;
       }
 
       .status-message {
-        font-size: 15px;
+        font-size: 13px;
         color: var(--text-primary);
         font-weight: 600;
-        margin-bottom: 14px;
-        min-height: 22px;
+        margin-bottom: 12px;
+        min-height: 20px;
         animation: fadeInOut 2s ease-in-out infinite;
         text-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+      }
+
+      .status-message.error {
+        color: var(--error);
+        text-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+        animation: none;
       }
 
       .status-dots {
@@ -403,29 +412,29 @@
       /* Footer mejorado */
       .footer-text {
         position: absolute;
-        bottom: 40px;
-        font-size: 12px;
+        bottom: 20px;
+        font-size: 10px;
         color: var(--text-secondary);
         letter-spacing: 1.5px;
-        opacity: 0.7;
+        opacity: 0.6;
         font-weight: 500;
       }
 
       /* Efectos de brillo mejorados */
       .glow {
         position: absolute;
-        width: 400px;
-        height: 400px;
+        width: 300px;
+        height: 300px;
         background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
         border-radius: 50%;
-        filter: blur(100px);
+        filter: blur(80px);
         pointer-events: none;
         animation: moveGlow 10s ease-in-out infinite;
       }
 
       .glow:nth-child(2) {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
         background: radial-gradient(circle, rgba(0, 153, 204, 0.1) 0%, transparent 70%);
         animation-delay: 5s;
         animation-duration: 12s;
@@ -452,6 +461,31 @@
         50% {
           transform: scale(1.05);
         }
+      }
+
+      /* Botón de retry */
+      .retry-button {
+        margin-top: 15px;
+        padding: 10px 28px;
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        display: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+      }
+
+      .retry-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 30px rgba(0, 212, 255, 0.5);
+      }
+
+      .retry-button.show {
+        display: inline-block;
       }
     </style>
   </head>
@@ -507,16 +541,30 @@
               <span class="dot"></span>
             </span>
           </p>
+          <button id="retry-button" class="retry-button">Reintentar</button>
         </div>
 
+        <!-- Progress Bar -->
+        <div class="progress-wrapper">
+          <div class="progress-label">
+            <span>Progreso</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Footer -->
+    <div class="footer-text">POWERED BY TAURI</div>
 
     <script>
       // Crear partículas flotantes
       function createParticles() {
         const container = document.getElementById('particles');
-        const particleCount = 20;
+        const particleCount = 15; // Reducido para ventana más pequeña
         
         for (let i = 0; i < particleCount; i++) {
           const particle = document.createElement('div');
@@ -530,30 +578,91 @@
 
       createParticles();
 
-      document.addEventListener("DOMContentLoaded", async () => {
+      // Función para actualizar UI
+      function updateUI(message, progress) {
+        const statusText = document.getElementById("status-text");
+        const progressBar = document.getElementById("progress-bar");
+        const progressPercent = document.getElementById("progress-percent");
 
-        // Mensajes de estado simulados
-        const messages = [
-          "Inicializando kernel",
-          "Cargando módulos del sistema",
-          "Conectando a base de datos",
-          "Ejecutando migraciones",
-          "Levantando servidor API",
-          "Verificando integridad",
-          "Finalizando inicialización"
-        ];
+        if (statusText) statusText.textContent = message;
+        if (progressBar) progressBar.style.width = progress + "%";
+        if (progressPercent) progressPercent.textContent = progress + "%";
+      }
 
-        let currentMessage = 0;
+      // Función para mostrar error
+      function showError(message) {
+        const statusText = document.getElementById("status-text");
+        const statusMessage = document.querySelector(".status-message");
+        const retryButton = document.getElementById("retry-button");
 
-        // Cambiar mensaje cada 1.5 segundos
-        const messageInterval = setInterval(() => {
-          if (currentMessage < messages.length) {
-            document.getElementById("status-text").textContent = messages[currentMessage];
-            currentMessage++;
+        if (statusMessage) statusMessage.classList.add("error");
+        if (statusText) statusText.textContent = message;
+        if (retryButton) retryButton.classList.add("show");
+      }
+
+      // Función principal de inicialización
+      async function initializeApp() {
+        try {
+          console.log("🚀 Iniciando aplicación desde splash...");
+
+          // Importante: Esperar a que Tauri esté completamente cargado
+          if (!window.__TAURI__) {
+            throw new Error("Tauri no está disponible");
           }
-        }, 1500);
 
+          const { invoke } = window.__TAURI__.core;
+
+          // Escuchar actualizaciones del splash
+          const { listen } = window.__TAURI__.event;
+          
+          await listen("splash-update", (event) => {
+            const { message, progress } = event.payload;
+            console.log(`📊 Splash update: ${message} (${progress}%)`);
+            
+            // Si progress es 255, es un error
+            if (progress === 255) {
+              showError(message);
+            } else {
+              updateUI(message, progress);
+              
+              // Cuando llegue al 100%, esperar y cerrar splash
+              if (progress === 100) {
+                setTimeout(async () => {
+                  console.log("🔄 Transición de ventanas...");
+                  try {
+                    // Llamar al comando que cierra splash y muestra main
+                    await invoke("close_splash");
+                    console.log("✅ Transición completada");
+                  } catch (err) {
+                    console.error("❌ Error en transición:", err);
+                  }
+                }, 800); // Esperar 800ms para que se vea la animación
+              }
+            }
+          });
+
+          // Invocar el comando de inicialización
+          console.log("📞 Invocando init_app...");
+          const result = await invoke("init_app");
+          console.log("✅ init_app completado:", result);
+
+        } catch (error) {
+          console.error("❌ Error durante la inicialización:", error);
+          showError(`Error: ${error}`);
+        }
+      }
+
+      // Botón de reintentar
+      document.getElementById("retry-button")?.addEventListener("click", () => {
+        location.reload();
       });
+
+      // Iniciar cuando el DOM esté listo
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializeApp);
+      } else {
+        initializeApp();
+      }
     </script>
   </body>
 </html>

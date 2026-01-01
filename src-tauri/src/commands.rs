@@ -4,6 +4,7 @@ use std::sync::Arc;
 use tauri::{AppHandle, Emitter, Manager, State, Window};
 use tokio::sync::Mutex as TokioMutex;
 use tokio::time::{sleep, Duration, Instant};
+use rand::Rng;
 
 use crate::api::start_server;
 use crate::db::Database;
@@ -32,7 +33,8 @@ pub async fn init_app(
     let min_wait = if cfg!(debug_assertions) {
         Duration::from_millis(300)
     } else {
-        Duration::from_millis(rand::random_range(3000..=6000))
+        let mut rng = rand::rng();
+        Duration::from_millis(rng.random_range(3000..=6000))
     };
 
     let splash = app
@@ -97,7 +99,7 @@ pub async fn init_app(
                     "splash-update",
                     SplashPayload {
                         message: msg.clone(),
-                        progress: 255,
+                        progress: 255, // 255 indica error
                     },
                 );
                 // Liberamos candado para permitir reintento
@@ -145,16 +147,11 @@ pub async fn init_app(
         )
         .ok();
 
-    // ⬇️ TRANSICIÓN DE VENTANAS (ESTO ES LO QUE FALTABA)
-    if let Some(main) = app.get_webview_window("main") {
-        let _ = main.show();
-        let _ = main.set_focus();
-    }
-
-    if let Some(splash) = app.get_webview_window("splash") {
-        let _ = splash.close();
-    }
-
+    println!("✅ Inicialización backend completada");
+    
+    // NO CERRAMOS EL SPLASH AQUÍ
+    // Dejamos que el frontend lo cierre cuando React esté listo
+    
     Ok("ready".into())
 }
 
@@ -165,7 +162,6 @@ pub async fn check_health() -> Result<String, String> {
 
 #[tauri::command]
 pub fn close_splash(app: AppHandle) {
-    // También aquí usar get_webview_window (mismas razones que arriba)
     if let Some(splash) = app.get_webview_window("splash") {
         let _ = splash.close();
     }
@@ -175,7 +171,6 @@ pub fn close_splash(app: AppHandle) {
     }
 }
 
-// ⬇️ NUEVO COMANDO PARA FULLSCREEN
 #[tauri::command]
 pub async fn toggle_fullscreen(window: Window) -> Result<bool, String> {
     let is_fullscreen = window.is_fullscreen().map_err(|e| e.to_string())?;
